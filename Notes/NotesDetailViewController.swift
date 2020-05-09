@@ -10,7 +10,8 @@ import UIKit
 
 class NotesDetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
-    var note: Note? = nil
+    var indexOfNote: Int? = nil
+    var note: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +20,24 @@ class NotesDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         navigationItem.largeTitleDisplayMode = .never
         
+        textView.text = note
+        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        var notes = UserDefaults.standard.object(forKey: "Notes") as? [String] ?? [String]()
+        
+        if let index = indexOfNote {
+            notes[index] = textView.text
+        } else if !textView.text.isEmpty {
+            notes.append(textView.text)
+        }
+        
+        UserDefaults.standard.set(notes, forKey: "Notes")
     }
     
     @objc func adjustForKeyboard(notification: Notification) {

@@ -10,7 +10,7 @@ import UIKit
 
 class NotesTableViewController: UITableViewController {
     let defaults = UserDefaults.standard
-    var notes = [Note]()
+    var notes = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,11 +20,17 @@ class NotesTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        notes = defaults.object(forKey: "Notes") as? [Note] ?? [Note]()
+        notes = defaults.object(forKey: "Notes") as? [String] ?? [String]()
         
         title = "Notes"
         navigationItem.largeTitleDisplayMode = .automatic
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(createNote))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        notes = defaults.object(forKey: "Notes") as? [String] ?? [String]()
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -42,14 +48,16 @@ class NotesTableViewController: UITableViewController {
 
         // Configure the cell...
         let note = notes[indexPath.row]
-        cell.textLabel?.text = note.name
-        cell.detailTextLabel?.text = note.text
-
+        let rows = note.components(separatedBy: "\n")
+        cell.textLabel?.text = rows.first
+        if rows.count > 1 {
+            cell.detailTextLabel?.text = rows[1]
+        }
         return cell
     }
     
     @objc func createNote() {
-        performSegue(withIdentifier: "Show Note", sender: nil)
+        performSegue(withIdentifier: "Create Note", sender: nil)
     }
 
     /*
@@ -93,14 +101,22 @@ class NotesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "Show Note" {
-            if let vc = segue.destination as? NotesDetailViewController {
+        if let vc = segue.destination as? NotesDetailViewController {
+            switch segue.identifier {
+            case "Show Note":
                 if notes.isEmpty {
-                    vc.note = Note(name: "", text: "")
+                    vc.note = ""
                 } else {
-                    vc.note = notes[tableView.indexPathForSelectedRow!.row]
+                    let index =  tableView.indexPathForSelectedRow!.row
+                    vc.indexOfNote = index
+                    vc.note = notes[index]
                 }
+            case "Create Note":
+                vc.note = ""
+            default:
+                break
             }
+            
         }
     }
 

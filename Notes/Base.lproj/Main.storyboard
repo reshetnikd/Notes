@@ -50,10 +50,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="mVc-hk-gnT"/>
+                    <connections>
+                        <segue destination="Dgr-31-CUb" kind="show" identifier="Create Note" id="ymi-Wf-bP3"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ReK-en-kcA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="-31.473214285714285"/>
+            <point key="canvasLocation" x="990" y="-31"/>
         </scene>
         <!--Notes Detail View Controller-->
         <scene sceneID="sgU-hg-ahi">
@@ -108,4 +111,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="-31.473214285714285"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="OxO-5n-kPg"/>
+    </inferredMetricsTieBreakers>
 </document>
