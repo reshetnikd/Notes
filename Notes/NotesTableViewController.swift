@@ -48,7 +48,7 @@ class NotesTableViewController: UITableViewController {
 
         // Configure the cell...
         let note = notes[indexPath.row]
-        let rows = note.components(separatedBy: "\n")
+        let rows = note.lines
         cell.textLabel?.text = rows.first
         if rows.count > 1 {
             cell.detailTextLabel?.text = rows[1]
