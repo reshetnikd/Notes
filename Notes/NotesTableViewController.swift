@@ -128,8 +128,33 @@ extension String {
         return firstLetter.uppercased() + self.dropFirst()
     }
     
+    var isNumeric: Bool {
+        guard !self.isEmpty else { return false }
+        
+        if let _ = Int(self) {
+            return true
+        } else if let _ = Float(self) {
+            return true
+        } else if let _ = Double(self) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    var lines: [String] {
+        guard !self.isEmpty else { return [] }
+        return self.components(separatedBy: "\n")
+    }
+    
     subscript(i: Int) -> String {
         return String(self[index(startIndex, offsetBy: i)])
+    }
+    
+    // add a prefix if it not exists
+    func withPrefix(_ prefix: String) -> String {
+        guard !self.hasPrefix(prefix) else { return self }
+        return prefix + self
     }
     
     // remove a prefix if it exists
