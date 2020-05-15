@@ -122,6 +122,27 @@ class NotesTableViewController: UITableViewController {
 
 }
 
+extension Array where Element: Comparable {
+    mutating func remove(item: Element) {
+        guard !self.isEmpty else { return }
+        var counter = 0
+        var firstIndex = 0
+        
+        for element in self {
+            if element == item {
+                if counter == 0 {
+                    counter += 1
+                    firstIndex = self.firstIndex(of: element)!
+                } else {
+                    counter += 1
+                }
+            }
+        }
+        
+        self.remove(at: firstIndex)
+    }
+}
+
 extension UIView {
     func bounceOut(duration: TimeInterval) {
         UIView.animate(withDuration: duration) {
