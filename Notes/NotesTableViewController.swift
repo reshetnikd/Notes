@@ -130,6 +130,16 @@ extension UIView {
     }
 }
 
+extension Int {
+    func times(_ closure: () -> Void) {
+        guard self > 0 else { return }
+        
+        for _ in 0..<self {
+            closure()
+        }
+    }
+}
+
 extension String {
     var capitalizedFirst: String {
         guard let firstLetter = self.first else { return "" }
