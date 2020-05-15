@@ -122,6 +122,14 @@ class NotesTableViewController: UITableViewController {
 
 }
 
+extension UIView {
+    func bounceOut(duration: TimeInterval) {
+        UIView.animate(withDuration: duration) {
+            self.transform = CGAffineTransform.init(scaleX: 0.0001, y: 0.0001)
+        }
+    }
+}
+
 extension String {
     var capitalizedFirst: String {
         guard let firstLetter = self.first else { return "" }
